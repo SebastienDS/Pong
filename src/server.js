@@ -4,13 +4,14 @@ const Room = require('./Room.js')
 
 const app = express()
 const port = 8000
+const address = "https://pong-game-js.herokuapp.com/"
 
 const rooms = []
 let playerWaiting = null
 
 app.use(express.static('public'))
 
-const server = app.listen(port, () => {
+const server = app.listen(port, address, () => {
     console.log(`Server listening at http://localhost:${port}`)
 })
 
