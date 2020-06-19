@@ -12,6 +12,11 @@ function setup () {
         waitingEnnemy = false
     })
 
+    socket.on("gameEnded", () => {
+        background(220)
+        text('Game Ended ... Please refresh', width / 2, height / 2)
+    })
+
     socket.on("data", (data) => {
         background(220)
         fill(0)

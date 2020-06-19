@@ -6,6 +6,7 @@ class Room {
 
     constructor (player1, player2, screenSize) {
         console.log("New Room")
+        this.interval = null
         this.screenSize = screenSize
         this.players = [
             new Player(player1, {
@@ -30,7 +31,10 @@ class Room {
         }, {
             dx: 5,
             dy: 4
-        }, 15, this.screenSize)
+        }, {
+            width: 15,
+            height: 15
+        }, this.screenSize)
         this.players.forEach(player => {
             player.socket.emit("ready")
         })
@@ -38,10 +42,26 @@ class Room {
     }
 
     startGame () {
-        setInterval(() => {
-            this.sendData()
-            this.ball.move()
+        this.interval = setInterval(() => {
+            if (this.ball.died) {
+                this.players.forEach(player => {
+                    player.socket.emit("gameEnded")
+                })
+                this.close()
+            } else {
+                this.sendData()
+                this.ball.move()
+                this.players.forEach(player => {
+                    if (player.collide(this.ball)) {
+                        this.ball.bounce()
+                    }
+                })
+            }
         }, 30);
+    }
+
+    close () {
+        clearInterval(this.interval)
     }
 
     sendData () {
@@ -60,7 +80,7 @@ class Room {
                 ball: {
                     x: this.ball.pos.x,
                     y: this.ball.pos.y,
-                    size: this.ball.size
+                    size: this.ball.size.width
                 },
                 players: playersData,
                 bounceCount: this.ball.bounceCount

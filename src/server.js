@@ -35,6 +35,7 @@ io.sockets.on('connection', (socket) => {
         console.log(`[-] ${socket.id}`)
         const index = rooms.indexOf(room)
         if (index !== -1) {
+            rooms[index].close()
             rooms.splice(index, 1)
         } else if (socket === playerWaiting) {
             playerWaiting = null
