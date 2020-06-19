@@ -1,6 +1,7 @@
 const express = require('express')
 const socket = require('socket.io')
 const Room = require('./Room.js')
+
 const app = express()
 const port = 8000
 
@@ -22,7 +23,10 @@ io.sockets.on('connection', (socket) => {
     if (playerWaiting === null) {
         playerWaiting = socket
     } else {
-        room = new Room(playerWaiting, socket)
+        room = new Room(playerWaiting, socket, {
+            width: 1000,
+            height: 600
+        })
         playerWaiting = null
         rooms.push(room)
     }

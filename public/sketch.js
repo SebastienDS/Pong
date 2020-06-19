@@ -18,6 +18,10 @@ function setup () {
         ellipse(data.ball.x, data.ball.y, data.ball.size, data.ball.size)
 
         text(`Bounce: ${data.bounceCount}`, width / 2, 50)
+
+        data.players.forEach(player => {
+            rect(player.x, player.y, player.width, player.height)
+        });
     })
 }    
 
@@ -25,6 +29,14 @@ function draw () {
     if (waitingEnnemy) {
         background(220)
         text("Waiting ennemy", width / 2, height / 2)
+    } else {
+        if (keyIsDown(UP_ARROW)) {
+            socket.emit("up")
+        }
+        
+        if (keyIsDown(DOWN_ARROW)) {
+            socket.emit("down")
+        }
     }
-
+    
 }
