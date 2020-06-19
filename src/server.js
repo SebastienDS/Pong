@@ -3,15 +3,14 @@ const socket = require('socket.io')
 const Room = require('./Room.js')
 
 const app = express()
-const port = 8000
-const address = "https://pong-game-js.herokuapp.com/"
+const port = process.env.PORT || 8000
 
 const rooms = []
 let playerWaiting = null
 
 app.use(express.static('public'))
 
-const server = app.listen(port, address, () => {
+const server = app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`)
 })
 
