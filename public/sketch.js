@@ -7,7 +7,7 @@ function setup () {
     textSize(50);
     textAlign(CENTER, CENTER);
 
-    socket = io.connect("https://pong-game-js.herokuapp.com/")
+    socket = io.connect("/")
     socket.on("ready", () => {
         waitingEnnemy = false
     })
