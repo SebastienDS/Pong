@@ -18,7 +18,7 @@ class Player extends Component {
         })
 
         this.socket.on("mouseMoved", (data) => {
-            this.pos.y = data.position
+            this.pos.y = data.position - this.size.height / 2
             this.limitMovement()
         })
     }
