@@ -27,6 +27,7 @@ function setup () {
         ellipse(data.ball.x, data.ball.y, data.ball.size, data.ball.size)
 
         text(`Bounce: ${data.bounceCount}`, width / 2, 50)
+        text(`${data.wins[0]} - ${data.wins[1]}`, width / 2, 100)
 
         data.players.forEach((player, i) => {
             if (playerNum === i) {
@@ -43,7 +44,7 @@ function draw () {
     if (waitingEnnemy) {
         background(220)
         fill(0)
-        text("Waiting ennemy", width / 2, height / 2)
+        text("Waiting enemy", width / 2, height / 2)
     } else {
         if (keyIsDown(UP_ARROW)) {
             socket.emit("up")

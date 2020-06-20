@@ -13,6 +13,7 @@ class Room {
             player2: player2
         }
         this.players = []
+        this.wins = [0, 0]
         this.ball = null
         this.initGame()
 
@@ -58,6 +59,7 @@ class Room {
         this.clearInterval()
         this.interval = setInterval(() => {
             if (this.ball.died) {
+                this.wins[this.ball.winner]++
                 this.players.forEach(player => {
                     player.socket.emit("gameEnded", {
                         timeLeft: 3
@@ -71,7 +73,7 @@ class Room {
             } else {
                 this.sendData()
                 this.ball.move()
-                this.players.forEach(player => {
+                this.players.forEach((player, i) => {
                     if (player.collide(this.ball)) {
                         this.ball.bounce()
                     }
@@ -91,7 +93,7 @@ class Room {
                 x: player.pos.x,
                 y: player.pos.y,
                 width: player.size.width,
-                height: player.size.height,
+                height: player.size.height
             })
         })
 
@@ -103,7 +105,8 @@ class Room {
                     size: this.ball.size.width
                 },
                 players: playersData,
-                bounceCount: this.ball.bounceCount
+                bounceCount: this.ball.bounceCount,
+                wins: this.wins
             })
         })
     }

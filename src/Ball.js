@@ -7,6 +7,7 @@ class Ball extends Component {
         this.speed = speed
         this.bounceCount = 0
         this.died = false
+        this.winner = null
     }
 
     move () {
@@ -21,11 +22,13 @@ class Ball extends Component {
             this.speed.dx *= -1
             this.bounceCount++
             this.died = true
+            this.winner = 1
         } else if (this.pos.x >= this.screenSize.width) {
             this.pos.x = this.screenSize.width
             this.speed.dx *= -1
             this.bounceCount++
             this.died = true
+            this.winner = 0 
         }
 
         if (this.pos.y < 0) {
