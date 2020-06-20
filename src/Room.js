@@ -17,10 +17,8 @@ class Room {
         this.ball = null
         this.initGame()
 
-        this.players.forEach((player, i) => {
-            player.socket.emit("ready", {
-                player: i
-            })
+        this.players.forEach(player => {
+            player.ready()
         })
         this.startGame()
     }
@@ -61,9 +59,8 @@ class Room {
             if (this.ball.died) {
                 this.wins[this.ball.winner]++
                 this.players.forEach(player => {
-                    player.socket.emit("gameEnded", {
-                        timeLeft: 3
-                    })
+                    player.endGame()
+
                     setTimeout(() => {
                         this.initGame()
                         this.startGame()
