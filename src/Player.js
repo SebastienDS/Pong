@@ -1,9 +1,11 @@
 const Component = require('./Component.js')
 
 class Player extends Component {
+    static num = 0
 
     constructor (socket, pos, size, screenSize) {
         super(pos, size, screenSize)
+        this.num = Player.num++
         this.socket = socket
         this.initListener()
     }
@@ -39,6 +41,19 @@ class Player extends Component {
         } else if (this.pos.y + this.size.height > this.screenSize.height) {
             this.pos.y = this.screenSize.height - this.size.height
         }
+    }
+
+    ready () {
+        this.socket.emit("ready", {
+            player: this.num
+        })
+    }
+
+    endGame () {
+        this.socket.emit("gameEnded", {
+            timeLeft: 3
+        })
+        Player.num = 0
     }
 }
 
