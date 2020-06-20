@@ -1,5 +1,6 @@
 let socket
 let waitingEnnemy = true
+let playerNum
 
 function setup () { 
     createCanvas(1000, 600)
@@ -8,8 +9,9 @@ function setup () {
     textAlign(CENTER, CENTER);
 
     socket = io.connect("/")
-    socket.on("ready", () => {
+    socket.on("ready", (data) => {
         waitingEnnemy = false
+        playerNum = data.player
     })
 
     socket.on("gameEnded", (data) => {
@@ -25,7 +27,12 @@ function setup () {
 
         text(`Bounce: ${data.bounceCount}`, width / 2, 50)
 
-        data.players.forEach(player => {
+        data.players.forEach((player, i) => {
+            if (playerNum === i) {
+                fill(255, 0, 0)
+            } else {
+                fill(0)
+            }
             rect(player.x, player.y, player.width, player.height)
         });
     })

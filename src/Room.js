@@ -16,8 +16,10 @@ class Room {
         this.ball = null
         this.initGame()
 
-        this.players.forEach(player => {
-            player.socket.emit("ready")
+        this.players.forEach((player, i) => {
+            player.socket.emit("ready", {
+                player: i
+            })
         })
         this.startGame()
     }
