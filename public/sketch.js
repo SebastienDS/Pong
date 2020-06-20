@@ -16,6 +16,7 @@ function setup () {
 
     socket.on("gameEnded", (data) => {
         background(220)
+        fill(0)
         text('Game Ended', width / 2, height / 3)
         text(`Game will restart in ${data.timeLeft} seconds`, width / 2, height * 2 / 3)
     })
@@ -41,6 +42,7 @@ function setup () {
 function draw () { 
     if (waitingEnnemy) {
         background(220)
+        fill(0)
         text("Waiting ennemy", width / 2, height / 2)
     } else {
         if (keyIsDown(UP_ARROW)) {

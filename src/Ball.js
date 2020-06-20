@@ -41,7 +41,12 @@ class Ball extends Component {
 
     bounce () {
         this.speed.dx *= -1.1
+        this.speed.dy *= this.getRandomSpeed(0.6, 1.4)
         this.bounceCount++
+    }
+
+    getRandomSpeed (min, max) {
+        return Math.random() * (max - min) + min;
     }
 
 }
