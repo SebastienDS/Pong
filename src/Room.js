@@ -8,8 +8,23 @@ class Room {
         console.log("New Room")
         this.interval = null
         this.screenSize = screenSize
+        this.sockets = {
+            player1: player1, 
+            player2: player2
+        }
+        this.players = []
+        this.ball = null
+        this.initGame()
+
+        this.players.forEach(player => {
+            player.socket.emit("ready")
+        })
+        this.startGame()
+    }
+
+    initGame () {
         this.players = [
-            new Player(player1, {
+            new Player(this.sockets.player1, {
                 x: 50,
                 y: 250,
             }, {
@@ -17,7 +32,7 @@ class Room {
                 height: 75
             }, this.screenSize), 
             
-            new Player(player2, {
+            new Player(this.sockets.player2, {
                 x: 925,
                 y: 250,
             }, {
@@ -35,19 +50,22 @@ class Room {
             width: 15,
             height: 15
         }, this.screenSize)
-        this.players.forEach(player => {
-            player.socket.emit("ready")
-        })
-        this.startGame()
     }
 
     startGame () {
+        this.clearInterval()
         this.interval = setInterval(() => {
             if (this.ball.died) {
                 this.players.forEach(player => {
-                    player.socket.emit("gameEnded")
+                    player.socket.emit("gameEnded", {
+                        timeLeft: 3
+                    })
+                    setTimeout(() => {
+                        this.initGame()
+                        this.startGame()
+                    }, 3000)
                 })
-                this.close()
+                this.clearInterval()
             } else {
                 this.sendData()
                 this.ball.move()
@@ -60,7 +78,7 @@ class Room {
         }, 30);
     }
 
-    close () {
+    clearInterval () {
         clearInterval(this.interval)
     }
 

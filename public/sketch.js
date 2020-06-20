@@ -12,9 +12,10 @@ function setup () {
         waitingEnnemy = false
     })
 
-    socket.on("gameEnded", () => {
+    socket.on("gameEnded", (data) => {
         background(220)
-        text('Game Ended ... Please refresh', width / 2, height / 2)
+        text('Game Ended', width / 2, height / 3)
+        text(`Game will restart in ${data.timeLeft} seconds`, width / 2, height * 2 / 3)
     })
 
     socket.on("data", (data) => {
