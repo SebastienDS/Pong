@@ -16,18 +16,27 @@ class Player extends Component {
         this.socket.on("down", () => {
             this.moveDown()
         })
+
+        this.socket.on("mouseMoved", (data) => {
+            this.pos.y = data.position
+            this.limitMovement()
+        })
     }
 
     moveUp () {
         this.pos.y -= 5
-        if (this.pos.y < 0) {
-            this.pos.y = 0
-        }
+        this.limitMovement()
     }
 
     moveDown () {
         this.pos.y += 5
-        if (this.pos.y + this.size.height > this.screenSize.height) {
+        this.limitMovement()
+    }
+
+    limitMovement () {
+        if (this.pos.y < 0) {
+            this.pos.y = 0
+        } else if (this.pos.y + this.size.height > this.screenSize.height) {
             this.pos.y = this.screenSize.height - this.size.height
         }
     }

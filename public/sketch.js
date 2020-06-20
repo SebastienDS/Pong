@@ -45,3 +45,9 @@ function draw () {
     }
     
 }
+
+function mouseMoved () {
+    socket.emit("mouseMoved", {
+        position: mouseY
+    })
+}
